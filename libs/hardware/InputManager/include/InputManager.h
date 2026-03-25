@@ -78,8 +78,8 @@ class InputManager {
   static constexpr uint8_t BTN_RIGHT = 3;
   static constexpr uint8_t BTN_UP = 4;
   static constexpr uint8_t BTN_DOWN = 5;
-  static constexpr uint8_t BTN_UNKNOWN_1 = 6;
-  static constexpr uint8_t BTN_UNKNOWN_2 = 7;
+  static constexpr uint8_t BTN_UP_2 = 6;
+  static constexpr uint8_t BTN_DOWN_2 = 7;
   static constexpr uint8_t BTN_POWER = 8;
 
   // Pins
