@@ -40,7 +40,9 @@ InputManager::InputManager()
       releasedEvents(0),
       lastDebounceTime(0),
       buttonPressStart(0),
-      buttonPressFinish(0) {}
+      buttonPressFinish(0),
+      powerButtonPressStart(0),
+      powerButtonPressFinish(0) {}
 
 void InputManager::begin() {
   pinMode(BUTTON_ADC_PIN_1, INPUT);
@@ -116,6 +118,16 @@ void InputManager::update() {
         buttonPressFinish = currentTime;
       }
 
+      // Track power button press time separately
+      if (pressedEvents & (1 << BTN_POWER)) {
+        powerButtonPressStart = currentTime;
+      }
+
+      // Track power button release
+      if (releasedEvents & (1 << BTN_POWER)) {
+        powerButtonPressFinish = currentTime;
+      }
+
       currentState = state;
     }
   }
@@ -132,6 +144,15 @@ bool InputManager::wasReleased(const uint8_t buttonIndex) const { return release
 bool InputManager::wasAnyReleased() const { return releasedEvents > 0; }
 
 unsigned long InputManager::getHeldTime() const {
+  // Still hold a button
+  if (currentState > 0) {
+    return millis() - buttonPressStart;
+  }
+
+  return buttonPressFinish - buttonPressStart;
+}
+
+unsigned long InputManager::getPowerButtonHeldTime() const {
   // Still hold a button
   if (currentState > 0) {
     return millis() - buttonPressStart;
