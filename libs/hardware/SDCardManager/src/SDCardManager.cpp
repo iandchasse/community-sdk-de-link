@@ -14,9 +14,8 @@ SDCardManager::SDCardManager() {}  // Removing sd() init
 bool SDCardManager::begin() {
   // CLK 39, CMD 40, D0 38, D1 48, D2 42, D3 41
   SD_MMC.setPins(39, 40, 38, 48, 42, 41);
-  if (!SD_MMC.begin("/sdcard",
-                    false)) {  // false = 4-bit mode capability check (but actually second
-                               // arg is mode1bit. false means try 4bit)
+  if (!SD_MMC.begin("/sdcard", false, false, 40000)) {  // false = 4-bit mode capability check (but actually second
+                                                        // arg is mode1bit. false means try 4bit)
     if (Serial) Serial.printf("[%lu] [SD] SD card not detected or init failed\n", millis());
     initialized = false;
   } else {
